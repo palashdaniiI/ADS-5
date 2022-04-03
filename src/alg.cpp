@@ -74,18 +74,18 @@ std::string infx2pstfx(std::string inf) {
   return res;
 }
 
-int eval(std::string con) {
+int eval(std::string pref) {
   TStack <int, 100> res_st2;
     int res = 0, a = 0, b = 0;
-    for (int i = 0; i < con.size(); i++) {
-        if (advan(con[i]) == 4) {
-            res_st2.push(con[i] - '0');
-        } else if (advan(con[i]) < 4) {
+    for (int i = 0; i < pref.size(); i++) {
+        if (advan(pref[i]) == 4) {
+            res_st2.push(pref[i] - '0');
+        } else if (advan(pref[i]) < 4) {
             a = res_st2.get();
             res_st2.pop();
             b = res_st2.get();
             res_st2.pop();
-            res_st2.push(expr(con[i], a, b));
+            res_st2.push(expr(pref[i], a, b));
         }
     }
     res = res_st2.get();
