@@ -49,7 +49,7 @@ std::string res;
         }
         res_st1.pop();
       } else {
-        while ((advan(inf[i]) <= advan(res_st1.get())) && (!res_st1.isEmpty())) {
+        while((advan(inf[i])<=advan(res_st1.get()))&&(!res_st1.isEmpty())) {
         char a = advan(inf[i]);
         char b = advan(res_st1.get());
         while ((a <= b) && (!res_st1.isEmpty())) {
@@ -63,7 +63,7 @@ std::string res;
   }
   return res;
 }
- 
+
 int eval(std::string con) {
   TStack <int, 100> res_st2;
     int res = 0;
@@ -75,7 +75,7 @@ int eval(std::string con) {
             res_st2.pop();
             int b = res_st2.get();
             res_st2.pop();
-            res_st2.push(expr(con[i], a, b)); 
+            res_st2.push(expr(con[i], a, b));
         }
     }
     res = res_st2.get();
