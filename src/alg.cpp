@@ -2,8 +2,6 @@
 #include <string>
 #include <map>
 #include "tstack.h"
-
-
 int expr(char nu, int a, int b) {
   switch (nu) {
     case '+': return a + b;
@@ -60,6 +58,15 @@ std::string res;
         res_st1.push(inf[i]);
       }
     }
+  }
+  while (!res_st1.isEmpty()) {
+    res.move(stack.get());
+    res.move(whit);
+    stack.pop();
+  }
+  for (int i = 0; i < res.size(); i++) {
+    if (res[res.size() - 1] == ' ')
+      res.erase(res.size() - 1);
   }
   return res;
 }
