@@ -1,6 +1,7 @@
 // Copyright 2021 NNTU-CS
 #include <string>
 #include <map>
+#include <stack>
 #include "tstack.h"
 
 int expr(char nu, int a, int b) {
@@ -18,76 +19,111 @@ int expr(char nu, int a, int b) {
 
 int advan(char nu) {
   switch (nu) {
-    case '(': return 0;
-    case ')': return 1;
-    case '+': return 2;
-    case '-': return 2;
-    case '*': return 3;
-    case '/': return 3;
-    default: return 4;
+    case '(':
+      return 0;
+    case ')':
+      return 1;
+    case '+':
+      return 2;
+    case '-':
+      return 2;
+    case '*':
+      return 3;
+    case '/':
+      return 3;
   }
+  return 0;
+}
+
+bool requ(std::string con, char nu) {
+  for (int i = 0; i < con.length(); ++i) {
+    if (con[i] == nu) {
+      return true;
+    }
+  }
+  return false;
 }
 
 std::string infx2pstfx(std::string inf) {
-  std::string res;
-  char whit = ' ';
-  TStack <char, 100> res_st1;
-  for (int i = 0; i < inf.size(); i++) {
-    if (advan(inf[i]) == 4) {
-      res.push_back(inf[i]);
-      res.push_back(whit);
-    } else {
+  TStack<char, 100> stack;
+  std::stack<char> Stack;
+  std::string num = "0123456789";
+  std::string operat = "()+-*/";
+  std::string result = "";
+  for (int i = 0; i < inf.length(); ++i) {
+    if (requ(num, inf[i])) {
+      result += inf[i];
+      result += ' ';
+    } else if (requ(operat, inf[i])) {
       if (advan(inf[i]) == 0) {
-        res_st1.push(inf[i]);
-      } else if (res_st1.isEmpty()) {
-          res_st1.push(inf[i]);
-      } else if ((advan(inf[i]) > advan(res_st1.get()))) {
-          res_st1.push(inf[i]);
-      } else if (advan(inf[i]) == 1) {
-        while (advan(res_st1.get()) != 0) {
-          res.push_back(res_st1.get());
-          res.push_back(whit);
-          res_st1.pop();
+        Stack.push(inf[i]);
+      } else if (Stack.empty()) {
+        Stack.push(inf[i]);
+      } else if (advan(inf[i]) > advan(Stack.top())) {
+        Stack.push(inf[i]);
+      } else if (inf[i] == ')') {
+        while (Stack.top() != '(') {
+          result += Stack.top();
+          result += ' ';
+          Stack.pop();
         }
-        res_st1.pop();
+        if (Stack.top() == '(') {
+          Stack.pop();
+        }
       } else {
-        char a = advan(inf[i]);
-        char b = advan(res_st1.get());
-        while ((a <= b) && (!res_st1.isEmpty())) {
-          res.push_back(res_st1.get());
-          res.push_back(whit);
-          res_st1.pop();
+        for (int j = 0; j<= Stack.size(); ++j) {
+          if (advan(Stack.top()) >= advan(inf[i])) {
+            result += Stack.top();
+            result += ' ';
+            Stack.pop();
+          }
         }
-        res_st1.push(inf[i]);
+        Stack.push(inf[i]);
       }
     }
   }
-  while (!res_st1.isEmpty()) {
-    res.push_back(res_st1.get());
-    res.push_back(whit);
-    res_st1.pop();
+  if (!Stack.empty()) {
+    for (int j = 0; j <= Stack.size(); ++j) {
+      result += Stack.top();
+      result += ' ';
+      Stack.pop();
+    }
   }
-  for (int i = 0; i < res.size(); i++) {
-    if (res[res.size() - 1] == ' ')
-      res.erase(res.size() - 1);
+  if (result[result.length() - 1] == ' ') {
+    result.erase(result.length() - 1);
   }
-  return res;
+  return result;
 }
 
 int eval(std::string pref) {
-  TStack <int, 100> res_st2;
-    int res = 0, a = 0, b = 0;
-    for (int i = 0; i < pref.size(); i++) {
-        if (advan(pref[i]) == 4) {
-            res_st2.push(pref[i] - '0');
-        } else if (advan(pref[i]) < 4) {
-            a = res_st2.get();
-            res_st2.pop();
-            b = res_st2.get();
-            res_st2.pop();
-            res_st2.push(expr(pref[i], a, b));
-        }
+  int sum = 0;
+  std::stack<int> Stack;
+  TStack<int, 100> stack;
+  std::string num = "0123456789";
+  std::string operat = "()+-*/";
+  for (int i = 0; i < pref.length(); ++i) {
+    if (requ(num, pref[i])) {
+      Stack.push(pref[i] - '0');
+    } else if (requ(operat, pref[i])) {
+      int a = 0, b = 0;
+      a = Stack.top();
+      Stack.pop();
+      b = Stack.top();
+      Stack.pop();
+      if (pref[i] == '+') {
+        Stack.push(b + a);
+      }
+      if (pref[i] == '-') {
+        Stack.push(b - a);
+      }
+      if (pref[i] == '*') {
+        Stack.push(b * a);
+      }
+      if (pref[i] == '/') {
+        Stack.push(b / a);
+      }
     }
-    res = res_st2.get();
-    return res;
+  }
+  sum = Stack.top();
+  return sum;
 }
