@@ -60,9 +60,9 @@ std::string infx2pstfx(std::string inf) {
     }
   }
   while (!res_st1.isEmpty()) {
-    res.push_back(stack.get());
+    res.push_back(res_st1.get());
     res.push_back(whit);
-    stack.pop();
+    res_st1.pop();
   }
   for (int i = 0; i < res.size(); i++) {
     if (res[res.size() - 1] == ' ')
