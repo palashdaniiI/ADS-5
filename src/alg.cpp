@@ -60,8 +60,8 @@ std::string infx2pstfx(std::string inf) {
     }
   }
   while (!res_st1.isEmpty()) {
-    res.move(stack.get());
-    res.move(whit);
+    res.push_back(stack.get());
+    res.push_back(whit);
     stack.pop();
   }
   for (int i = 0; i < res.size(); i++) {
