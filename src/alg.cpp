@@ -26,7 +26,7 @@ int advan(char nu) {
 }
 
 std::string infx2pstfx(std::string inf) {
-std::string res;
+  std::string res;
   char whit = ' ';
   TStack <char, 100> res_st1;
   for (int i = 0; i < inf.size(); i++) {
