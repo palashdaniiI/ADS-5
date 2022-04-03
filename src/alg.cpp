@@ -31,8 +31,8 @@ std::string infx2pstfx(std::string inf) {
   TStack <char, 100> res_st1;
   for (int i = 0; i < inf.size(); i++) {
     if (advan(inf[i]) == 4) {
-      res.move(inf[i]);
-      res.move(whit);
+      res.push_back(inf[i]);
+      res.push_back(whit);
     } else {
       if (advan(inf[i]) == 0) {
         res_st1.push(inf[i]);
@@ -42,8 +42,8 @@ std::string infx2pstfx(std::string inf) {
           res_st1.push(inf[i]);
       } else if (advan(inf[i]) == 1) {
         while (advan(res_st1.get()) != 0) {
-          res.move(res_st1.get());
-          res.move(whit);
+          res.push_back(res_st1.get());
+          res.push_back(whit);
           res_st1.pop();
         }
         res_st1.pop();
@@ -51,8 +51,8 @@ std::string infx2pstfx(std::string inf) {
         char a = advan(inf[i]);
         char b = advan(res_st1.get());
         while ((a <= b) && (!res_st1.isEmpty())) {
-          res.move(res_st1.get());
-          res.move(whit);
+          res.push_back(res_st1.get());
+          res.push_back(whit);
           res_st1.pop();
         }
         res_st1.push(inf[i]);
