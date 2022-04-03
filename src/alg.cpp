@@ -1,7 +1,8 @@
 // Copyright 2021 NNTU-CS
 #include <string>
 #include <map>
-#include"tstack.h"
+#include "tstack.h"
+
 int expr(char nu, int a, int b) {
   switch (nu) {
     case '+': return a + b;
@@ -11,6 +12,7 @@ int expr(char nu, int a, int b) {
   }
   return 0;
 }
+
 int advan(char nu) {
   switch (nu) {
     case '(': return 0;
