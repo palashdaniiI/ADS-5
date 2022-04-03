@@ -8,7 +8,7 @@ int expr(char nu, int a, int b) {
     case '+': return a + b;
     case '-': return a - b;
     case '*': return a * b;
-    case '/': 
+    case '/':
       if (a != 0)
       return b / a;
   default: return 0;
